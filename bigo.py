@@ -54,23 +54,23 @@ def length_of_longest_substring_n2(s):
     """
     if not s:
         return 0
-    new_val = ''
-    vals = []
+    max_len = 0
     str_dict = {}
-    s = "".join(s.split())
     m = s
+    num = 0
     for _ in s:
+        num = 0
+        stat = True
         for j in m:
-            if j not in str_dict:
+            if j not in str_dict and stat == True:
                 str_dict[j] = 1
-                new_val += j
+                num += 1
             else:
-                vals.append(new_val)
-                new_val = ''
                 str_dict = {}
+                stat = False
+            max_len = max(max_len, num)
         m = m[1:]
-    max_len = max(vals, key=len)
-    return len(max_len)
+    return max_len
 
 # TODO: implement this function. You may delete this comment when you are done.
 def length_of_longest_substring_n(s):
