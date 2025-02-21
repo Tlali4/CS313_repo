@@ -66,6 +66,7 @@ def length_of_longest_substring_n2(s):
             else:
                 vals.append(new_val)
                 new_val = ''
+                str_dict = {}
         m = m[1:]
     max_len = max(vals, key=len)
     return len(max_len)
