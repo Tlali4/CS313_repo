@@ -62,7 +62,7 @@ def length_of_longest_substring_n2(s):
         num = 0
         stat = True
         for j in m:
-            if j not in str_dict and stat == True:
+            if j not in str_dict and stat is True:
                 str_dict[j] = 1
                 num += 1
             else:
