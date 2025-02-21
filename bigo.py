@@ -57,6 +57,7 @@ def length_of_longest_substring_n2(s):
     new_val = ''
     vals = []
     str_dict = {}
+    s = "".join(s.split())
     m = s
     for _ in s:
         for j in m:
