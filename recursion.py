@@ -90,6 +90,8 @@ def group_sum_5(start, nums, target):
         target -= nums[start]
         if nums[start + 1] == 1 or nums[start + 1] % 5 == 0:
             start += 1
+        if (start + 1) >= len(nums):
+            return target == 0
     # include the first number
     target -= nums[start]
     if group_sum_5(start + 1, nums, target):
