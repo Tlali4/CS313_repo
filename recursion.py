@@ -193,6 +193,8 @@ def split_53(nums):
     lst = []
     if tots % 2 == 0:
         target = tots // 2
+    elif sum(nums) == 0:
+        return True
     else:
         return False
     return tracking_53(0, nums, target, val, lst, lst_5)
