@@ -152,10 +152,10 @@ def tracking(i, nums, target, val, lst):
     tot = sum(lst)
     if i >= len(nums):
         return val == 2
-    if target == tot:
-        val += 1
     if val == 2:
         return True
+    if target == tot:
+        val += 1
     lst.append(nums[i])
     if tracking(i + 1, nums, target, val, lst):
         return True
