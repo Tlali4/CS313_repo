@@ -151,6 +151,10 @@ def split_array(nums):
     return tracking(0, nums, target, val, lst)
 
 def tracking(i, nums, target, val, lst):
+    '''
+    Helper function of split_array, performs the recursion aspect checking
+    whether the lists hold the needed conditions.
+    '''
     tot = sum(lst)
     if i >= len(nums):
         return val == 2
@@ -176,6 +180,45 @@ def split_odd_10(nums):
     pre: len(nums) >= 0, nums will only contain ints
     post: return True if nums can be split, False otherwise
     """
+    tots = sum(nums)
+    val = 0
+    lst_10 = []
+    lst = []
+    if tots % 2 == 0:
+        target = tots // 2
+    else:
+        return False
+    return tracking_odd(0, nums, target, val, lst, lst_10)
+
+def tracking_odd(i, nums, target, val, lst, lst_10):
+    '''
+    Helper function of split_odd_10, performs the recursion aspect checking
+    whether the lists hold the needed conditions.
+    '''
+    tot = sum(lst)
+    if i >= len(nums):
+        return val == 2
+    if sum(lst) % 2 == 1:
+        return True
+    if target == tot:
+        val += 1
+    if val == 2:
+        return True
+
+    lst_10.append(nums[i])
+    if sum(lst_10) % 10 == 0:
+        val += 1
+    lst.append(nums[i])
+    if sum(lst) % 2 == 1:
+        val += 1
+    if tracking_odd(i + 1, nums, target, val, lst, lst_10):
+        return True
+
+    if sum(lst) > 0:
+        lst.pop()
+    if sum(lst_10) > 0:
+        lst_10.pop()
+    return tracking_odd( i + 1, nums, target, val, lst, lst_10)
 
 
 def split_53(nums):
@@ -203,6 +246,10 @@ def split_53(nums):
 
 
 def tracking_53(i, nums, target, val, lst, lst_5):
+    '''
+    Helper function of split_odd_53, performs the recursion aspect checking
+    whether the lists hold the needed conditions.
+    '''
     tot = sum(lst)
     if i >= len(nums):
         return val == 2
