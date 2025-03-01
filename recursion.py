@@ -191,7 +191,7 @@ def split_53(nums):
     val = 0
     lst_5 = []
     lst = []
-    if tots % 2 == 0:
+    if tots % 2 == 0 and sum(nums) != 0:
         target = tots // 2
     elif sum(nums) == 0:
         return True
