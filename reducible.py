@@ -15,12 +15,8 @@ Students. Academic penalties up to and including an F in the course are likely.
 UT EID 1: cms8699
 UT EID 2: tae695
 """
-# Step size works! Insert Word does not work! Find word works! Is Reducible does not work! Get longest works! Main is not written!
-
-
 # the constant used to calculate the step size
 STEP_SIZE_CONSTANT = 3
-
 
 # DO NOT modify this function.
 def is_prime(n):
@@ -87,13 +83,12 @@ def insert_word(s, hash_table):
     if hash_table[hashed] == '':
         hash_table[hashed] = s
     else:
-        # rehashing here 
+        # rehashing here
         step = step_size(s)
         next_index = (hashed + step) % len(hash_table)
         while hash_table[next_index]:
             next_index = (next_index + step) % len(hash_table)
         hash_table[next_index] = s
-
 
 def find_word(s, hash_table):
     """
@@ -116,7 +111,6 @@ def find_word(s, hash_table):
             next_index = (next_index + step) % len(hash_table)
     return False
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def is_reducible(s, hash_table, hash_memo):
     """
     Determines if a string is reducible using a recursive check.
@@ -129,25 +123,27 @@ def is_reducible(s, hash_table, hash_memo):
     """
     # if len(s) == 1 and s in ['a', 'i', 'o']:
     # need help understanding how to implement this :(
+    if len(s) == 1 and s in ['a', 'i', 'o']:
+        #insert_word(s, hash_memo)
+        return True
+    if len(s) == 1:
+        return False
+    # this is finding if the word is in hash_memo
     if find_word(s, hash_memo):
         return True
-    elif len(s) == 1 and s in ['a', 'i', 'o']:
-        insert_word(s, hash_memo)
-        return True
-    elif len(s) == 1:
+    if find_word(s, hash_table) is False:
         return False
-    # goes through each letter 
+    # goes through each letter
     for num in range(len(s)):
-        print('num = ',num)
+        #print('num = ',num)
         temp_s = s[:num] + s[num + 1:]
-        print('temp_s = ',temp_s)
-        print('hash: ', hash_memo)
+        #print('temp_s = ',temp_s)
+        #print('hash: ', hash_memo)
 
         if is_reducible(temp_s, hash_table, hash_memo):
             insert_word(s, hash_memo)
             return True
     return False
-
 
 def get_longest_words(string_list):
     """
@@ -166,17 +162,17 @@ def get_longest_words(string_list):
             max_words.append(word)
     return max_words
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def main():
     """The main function that calculates the longest reducible words"""
     # create an empty word_list
-    lst = []
+    word_lst = []
     # read words using input redirection
     # where each line read from input()
     # should be a single word. Append to word_list
     # ensure each word has no trailing white space.
 
     # find length of word_list
+    len_word_lst = len(word_lst)
 
     # determine prime number N that is greater than twice
     # the length of the word_list
