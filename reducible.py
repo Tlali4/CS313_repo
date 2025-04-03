@@ -15,6 +15,7 @@ Students. Academic penalties up to and including an F in the course are likely.
 UT EID 1: cms8699
 UT EID 2: tae695
 """
+import sys
 # the constant used to calculate the step size
 STEP_SIZE_CONSTANT = 3
 
@@ -86,7 +87,7 @@ def insert_word(s, hash_table):
         # rehashing here
         step = step_size(s)
         next_index = (hashed + step) % len(hash_table)
-        while hash_table[next_index]:
+        while hash_table[next_index] != '':
             next_index = (next_index + step) % len(hash_table)
         hash_table[next_index] = s
 
@@ -102,13 +103,12 @@ def find_word(s, hash_table):
     hashed = hash_word(s, len(hash_table))
     if hash_table[hashed] == s:
         return True
-    else:
-        step = step_size(s)
-        next_index = (hashed + step) % len(hash_table)
-        while hash_table[next_index]:
-            if hash_table[next_index] == s:
-                return True
-            next_index = (next_index + step) % len(hash_table)
+    step = step_size(s)
+    next_index = (hashed + step) % len(hash_table)
+    while hash_table[next_index] != '':
+        if hash_table[next_index] == s:
+            return True
+        next_index = (next_index + step) % len(hash_table)
     return False
 
 def is_reducible(s, hash_table, hash_memo):
@@ -170,42 +170,66 @@ def main():
     # where each line read from input()
     # should be a single word. Append to word_list
     # ensure each word has no trailing white space.
-
+    for line in sys.stdin:
+        wor = line.strip()
+        word_lst.append(wor)
     # find length of word_list
     len_word_lst = len(word_lst)
-
     # determine prime number N that is greater than twice
     # the length of the word_list
 
+    n = is_prime(len_word_lst)
+    #print(n)
+    if n:
+        n = len_word_lst*2
+    else:
+        while n is False:
+            len_word_lst = len_word_lst + 1
+            n = is_prime(len_word_lst)
     # create an empty hash_list
-
     # populate the hash_list with N blank strings
-
+    hash_lst = ['']*len_word_lst
     # hash each word in word_list into hash_list
     # for collisions use double hashing
+    for word in word_lst:
+        insert_word(word, hash_lst)
+
+    print("done inserting")
 
     # create an empty hash_memo of size M
     # we do not know a priori how many words will be reducible
     # let us assume it is 10 percent (fairly safe) of the words
     # then M is a prime number that is slightly greater than
     # 0.2 * size of word_list
-
+    val = int(0.2*len_word_lst)
+    m = is_prime(val)
+    if m is False:
+        while m is False:
+            val = val + 1
+            m = is_prime(val)
     # populate the hash_memo with M blank strings
-
+    hash_memo = [''] * m
     # create an empty list reducible_words
-
+    reducible_words = []
     # for each word in the word_list recursively determine
     # if it is reducible, if it is, add it to reducible_words
     # as you recursively remove one letter at a time check
     # first if the sub-word exists in the hash_memo. if it does
     # then the word is reducible and you do not have to test
     # any further. add the word to the hash_memo.
+    for word in word_lst:
+        r = is_reducible(word, word_lst, hash_memo)
+        if r:
+            reducible_words.append(word)
 
     # find the largest reducible words in reducible_words
-
+    maxm = get_longest_words(reducible_words)
+    print(maxm)
     # print the reducible words in alphabetical order
     # one word per line
-
+    reducible_words = sorted(reducible_words)
+    for word in reducible_words:
+        print(word)
 
 if __name__ == "__main__":
     main()
