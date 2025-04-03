@@ -103,8 +103,12 @@ def find_word(s, hash_table):
     hashed = hash_word(s, len(hash_table))
     if hash_table[hashed] == s:
         return True
+    if hash_table[hashed] == '':
+        return False
     step = step_size(s)
     next_index = (hashed + step) % len(hash_table)
+    # print(next_index)
+    # print(step)
     while hash_table[next_index] != '':
         if hash_table[next_index] == s:
             return True
@@ -123,15 +127,17 @@ def is_reducible(s, hash_table, hash_memo):
     """
     # if len(s) == 1 and s in ['a', 'i', 'o']:
     # need help understanding how to implement this :(
-    if len(s) == 1 and s in ['a', 'i', 'o']:
-        #insert_word(s, hash_memo)
-        return True
-    if len(s) == 1:
-        return False
+    
     # this is finding if the word is in hash_memo
     if find_word(s, hash_memo):
         return True
-    if find_word(s, hash_table) is False:
+    if find_word(s, hash_table) is False: # would this be making is go thru for long time...
+        return False
+    
+    if s in ['a', 'i', 'o']:
+        #insert_word(s, hash_memo)
+        return True
+    if len(s) == 1:
         return False
     # goes through each letter
     for num in range(len(s)):
@@ -139,7 +145,8 @@ def is_reducible(s, hash_table, hash_memo):
         temp_s = s[:num] + s[num + 1:]
         #print('temp_s = ',temp_s)
         #print('hash: ', hash_memo)
-
+        # print(num)
+        # print(temp_s)
         if is_reducible(temp_s, hash_table, hash_memo):
             insert_word(s, hash_memo)
             return True
@@ -174,27 +181,25 @@ def main():
         wor = line.strip()
         word_lst.append(wor)
     # find length of word_list
-    len_word_lst = len(word_lst)
+    len_word_lst = len(word_lst) * 2 + 1
     # determine prime number N that is greater than twice
     # the length of the word_list
 
     n = is_prime(len_word_lst)
     #print(n)
-    if n:
-        n = len_word_lst*2
-    else:
-        while n is False:
-            len_word_lst = len_word_lst + 1
-            n = is_prime(len_word_lst)
+    while n is False:
+        len_word_lst = len_word_lst + 1
+        n = is_prime(len_word_lst)
     # create an empty hash_list
     # populate the hash_list with N blank strings
     hash_lst = ['']*len_word_lst
     # hash each word in word_list into hash_list
     # for collisions use double hashing
+    #print(len_word_lst)
     for word in word_lst:
         insert_word(word, hash_lst)
 
-    print("done inserting")
+    #print("done inserting")
 
     # create an empty hash_memo of size M
     # we do not know a priori how many words will be reducible
@@ -207,8 +212,9 @@ def main():
         while m is False:
             val = val + 1
             m = is_prime(val)
+    #print(val)
     # populate the hash_memo with M blank strings
-    hash_memo = [''] * m
+    hash_memo = [''] * val
     # create an empty list reducible_words
     reducible_words = []
     # for each word in the word_list recursively determine
@@ -217,18 +223,24 @@ def main():
     # first if the sub-word exists in the hash_memo. if it does
     # then the word is reducible and you do not have to test
     # any further. add the word to the hash_memo.
+
     for word in word_lst:
-        r = is_reducible(word, word_lst, hash_memo)
+        # print()
+        # print(word)
+        
+        r = is_reducible(word, hash_lst, hash_memo)
+        
         if r:
             reducible_words.append(word)
 
+    #print("done with reducible")
+
     # find the largest reducible words in reducible_words
     maxm = get_longest_words(reducible_words)
-    print(maxm)
+    order_maxm = sorted(maxm)
     # print the reducible words in alphabetical order
     # one word per line
-    reducible_words = sorted(reducible_words)
-    for word in reducible_words:
+    for word in order_maxm:
         print(word)
 
 if __name__ == "__main__":
