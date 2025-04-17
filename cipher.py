@@ -185,14 +185,14 @@ def main():
     # read the key from stdin (terminal/input)
     railfence_key = input()
     # encrypt and print the encoded text using rail fence cipher
-    encrypt = rail_fence_encode(railfence_str, railfence_key)
+    encrypt = rail_fence_encode(railfence_str, int(railfence_key))
     print(encrypt)
     # read encoded text from stdin (terminal/input)
     railencoded = input()
     # read the key from stdin (terminal/input)
     keyencoded = input()
     # decrypt and print the plain text using rail fence cipher
-    decrypt = rail_fence_decode(railencoded, keyencoded)
+    decrypt = rail_fence_decode(railencoded, int(keyencoded))
     print(decrypt)
     # read the plain text from stdin (terminal/input)
     vig_string = input()
