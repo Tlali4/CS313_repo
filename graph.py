@@ -342,29 +342,14 @@ class ImageGraph:
 
         q = Queue()
         q.enqueue(start_index)
+        same_c = self.vertices[start_index].color
         self.vertices[start_index].visit_and_set_color(color)
         while not q.is_empty():
             curr_v = q.dequeue()
             for vertex in self.vertices[curr_v].edges:
-                if self.vertices[vertex].visited is False and self.vertices[vertex].color != color:
+                if self.vertices[vertex].visited is False and self.vertices[vertex].color == same_c: # color
                     q.enqueue(vertex)
                     self.vertices[vertex].visit_and_set_color(color)
-
-    """     
-        q = Queue()
-        q.enqueue(start_index)
-        self.vertices[start_index].color = color
-        visited_set = set()
-
-        while not q.is_empty():
-            curr_v = q.dequeue()
-            visited_set.add(curr_v)
-            for vertex in self.vertices[curr_v].edges: # will have to figure out this part :)
-                if vertex not in visited_set:
-                    q.enqueue(vertex)
-                    visited_set.add(vertex)
-                    self.vertices[vertex].color = color
-     """
 
     # TODO: Modify this method. You may delete this comment when you are done.
     def dfs(self, start_index, color):
