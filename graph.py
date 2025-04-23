@@ -342,6 +342,18 @@ class ImageGraph:
 
         q = Queue()
         q.enqueue(start_index)
+        self.vertices[start_index].visit_and_set_color(color)
+        while not q.is_empty():
+            curr_v = q.dequeue()
+            for vertex in self.vertices[curr_v].edges:
+                if self.vertices[vertex].visited is False and self.vertices[vertex].color != color:
+                    q.enqueue(vertex)
+                    self.vertices[vertex].visit_and_set_color(color)
+
+    """     
+        q = Queue()
+        q.enqueue(start_index)
+        self.vertices[start_index].color = color
         visited_set = set()
 
         while not q.is_empty():
@@ -352,6 +364,7 @@ class ImageGraph:
                     q.enqueue(vertex)
                     visited_set.add(vertex)
                     self.vertices[vertex].color = color
+     """
 
     # TODO: Modify this method. You may delete this comment when you are done.
     def dfs(self, start_index, color):
@@ -404,7 +417,9 @@ def create_graph(data):
     """
 
     # split the data by new line
-    new_data = data.split('\n')
+    new_data = data.strip() #added this
+    new_data = new_data.split('\n')
+    #print(new_data)
 
     # get size of image and number of vertices
     size_imag = int(new_data[0])
@@ -425,14 +440,14 @@ def create_graph(data):
 
     # create edges between vertices - edge info has the format "from_index,to_index"
     # connect vertex A to vertex B and the other way around
-    edges = new_data[num_vertices + 3:-2]
+    edges = new_data[num_vertices + 3:-1] # was -2 instead
     for edge in edges:
         e = edge.split(',')
         #print(e)
         imag_g.vertices[int(e[0])].add_edge(int(e[1]))
         imag_g.vertices[int(e[1])].add_edge(int(e[0]))
     # read search starting position and color
-    search = new_data[-2].split(',')
+    search = new_data[-1].split(',') # was -2 too
     start_pos = int(search[0])
     color = search[1]
     # return the ImageGraph, starting position, and color as a tuple in this order.
