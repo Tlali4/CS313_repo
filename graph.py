@@ -16,8 +16,6 @@ UT EID 1: tae695
 UT EID 2: cms8699
 """
 
-import sys
-
 # -----------------------PRINTING LOGIC, DON'T WORRY ABOUT THIS PART----------------------------
 RESET_CHAR = "\u001b[0m"  # Code to reset the terminal color
 COLOR_DICT = {
@@ -58,7 +56,7 @@ class Node:
         next: The reference to the next node in the linked list (None by default).
     """
 
-    def __init__(self, data, next=None):
+    def __init__(self, data, next = None):
         """
         Initializes a new node with the given data and a reference to the next node.
 
@@ -70,7 +68,9 @@ class Node:
         self.next = next
 
 class StackError(Exception):
-    pass
+    """
+    This helps pass the Exception
+    """
 
 class Stack:
     """
@@ -150,7 +150,9 @@ class Stack:
         return self._size
 
 class QueueError(Exception):
-    pass
+    """
+    This helps pass the Exception
+    """
 
 class Queue:
     """
