@@ -2,7 +2,7 @@
 Student information for this assignment:
 
 Replace <FULL NAME> with your name.
-On my/our honor, Tlali Engrav and <FULL NAME>, this
+On my/our honor, Tlali Engrav and Coen Street, this
 programming assignment is my own work and I have not provided this code to
 any other student.
 
@@ -13,7 +13,7 @@ code to someone else), the case shall be submitted to the Office of the Dean of
 Students. Academic penalties up to and including an F in the course are likely.
 
 UT EID 1: tae695
-UT EID 2:
+UT EID 2: cms8699
 """
 
 import sys
@@ -69,10 +69,8 @@ class Node:
         self.data = data
         self.next = next
 
-
 class StackError(Exception):
     pass
-
 
 class Stack:
     """
@@ -82,7 +80,7 @@ class Stack:
         _top: The top node of the stack.
         _size: The number of elements in the stack.
     """
-    
+
     def __init__(self):
         """
         Initializes an empty stack with no elements.
@@ -151,10 +149,8 @@ class Stack:
         """
         return self._size
 
-
 class QueueError(Exception):
     pass
-
 
 class Queue:
     """
@@ -304,8 +300,9 @@ class ImageGraph:
         post: return a 2D list of integers representing the adjacency matrix.
         """
         adj_matrix = [['' for _ in range(len(self.vertices))] for _ in range(len(self.vertices))]
-        for i in range(len(self.vertices)):
-            for j in range(len(self.vertices)):
+        num = len(self.vertices)
+        for i in range(num):
+            for j in range(num):
                 if j in self.vertices[i].edges:
                     adj_matrix[i][j] = 1
                 else:
@@ -342,16 +339,15 @@ class ImageGraph:
 
         q = Queue()
         q.enqueue(start_index)
-        same_c = self.vertices[start_index].color
+        sam_c = self.vertices[start_index].color
         self.vertices[start_index].visit_and_set_color(color)
         while not q.is_empty():
             curr_v = q.dequeue()
             for vertex in self.vertices[curr_v].edges:
-                if self.vertices[vertex].visited is False and self.vertices[vertex].color == same_c: # color
+                if self.vertices[vertex].visited is False and self.vertices[vertex].color == sam_c:
                     q.enqueue(vertex)
                     self.vertices[vertex].visit_and_set_color(color)
 
-    # TODO: Modify this method. You may delete this comment when you are done.
     def dfs(self, start_index, color):
         """
         You must implement this algorithm using a Stack WITHOUT using recursion.
@@ -381,14 +377,14 @@ class ImageGraph:
 
         s = Stack()
         s.push(start_index)
-        visited_set = set()
-        while not s.is_empty:
+        sam_c = self.vertices[start_index].color
+        while not s.is_empty():
             current = s.pop()
-            if current not in visited_set:
-                visited_set.add(current)
-                for vertex in self.vertices[current].edges: # how do I make this using a data set
-                    s.push(vertex) # how to make color fill
-                    self.vertices[vertex].color = color
+            if not self.vertices[current].visited:
+                self.vertices[current].visit_and_set_color(color)
+                for v in self.vertices[current].edges:
+                    if self.vertices[v].color == sam_c and self.vertices[v].visited is False:
+                        s.push(v)
 
 def create_graph(data):
     """
@@ -441,7 +437,6 @@ def create_graph(data):
     #raise NotImplementedError("Remove this exception and implement create_graph here.")
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def main():
     """
     The main function that drives the program execution.
@@ -451,7 +446,7 @@ def main():
     """
 
     # read all input as a single string.
-    data = sys.stdin.read()
+
 
     # create graph, passing in data
 
